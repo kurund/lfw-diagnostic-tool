@@ -44,10 +44,10 @@ function diagnostic_tool_calculations( $form_data ) {
 
     // calculate student level
     $student_level = 'Low';
-    if ($student_score > 55) {
+    if ($student_score >= 65) {
       $student_level = 'High';
     }
-    elseif ($student_score <= 55 && $student_score > 40) {
+    elseif ($student_score < 65 && $student_score >= 30) {
       $student_level = 'Medium';
     }
 
@@ -62,51 +62,66 @@ function diagnostic_tool_calculations( $form_data ) {
 
     // calculate teacher level
     $teacher_level = 'Low';
-    if ($teacher_score > 55) {
+    if ($teacher_score >= 60) {
       $teacher_level = 'High';
     }
-    elseif ($teacher_score <= 55 && $teacher_score > 40) {
+    elseif ($teacher_score < 60 && $teacher_score >= 25) {
       $teacher_level = 'Medium';
     }
 
     // calculate supplementary class teacher
     // IF(Input!J10="No","Low",IF(AND(Input!J8="Yes",Input!J9="Yes")=TRUE,"High",IF(AND(Input!J8="No",Input!J9="Yes")=TRUE,"Medium",IF(AND(Input!J8="Yes",Input!J9="No")=TRUE,"High",IF(AND(Input!J8="No",Input!J9="No")=TRUE,"Low","Medium")))))
+    $supp_teacher_level = 'High';
 
+    $solution1 = $solution2 = $solution3 = $solution4 = 'No';
 
-    $success_message = '
+    if ($student_level === 'Low') {
+      $solution1 = 'Yes';
+      $solution2 = 'Yes';
+    }
+
+    if ($solution2 == 'Yes' and ($teacher_level == 'High' or $teacher_level == 'Medium')) {
+      $solution3 = 'Yes';
+    }
+
+    if ($solution2 == 'Yes' and $teacher_level == 'Low') {
+      $solution4 = 'Yes';
+    }
+
+    $success_message = "
     <table>
       <tr>
-        <td>Outcome</td>
+        <td><strong>Outcome</strong></td>
       </tr>
       <tr>
-        <td>1.</td><td>Exposure for students (High, Medium, Low)</td><td>'. $student_level.'</td>
+        <td>1.</td><td>Exposure for students (High, Medium, Low)</td><td>{$student_level}</td>
       </tr>
       <tr>
-        <td>2.</td><td>Capability of supplementary Class Teachers (High, Medium, Low)</td><td>'. $teacher_level.'</td>
+        <td>2.</td><td>Capability of supplementary Class Teachers (High, Medium, Low)</td><td>{$teacher_level}</td>
       </tr>
       <tr>
-        <td>3.</td><td>Improvement potential for supplementary class teachers (High, Medium, Low)</td><td>'. $student_level.'</td>
+        <td>3.</td><td>Improvement potential for supplementary class teachers (High, Medium, Low)</td><td>{$supp_teacher_level}</td>
       </tr>
        <tr>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>Solution</td>
+        <td><strong>Solution</strong></td>
       </tr>
       <tr>
-        <td>1.</td><td>Do you require any external assistance</td><td>Yes</td>
+        <td>1.</td><td>Do you require any external assistance</td><td>{$solution1}</td>
       </tr>
       <tr>
-        <td>2.</td><td>Can LFW add value in your context?</td><td>Yes</td>
+        <td>2.</td><td>Can LFW add value in your context?</td><td>{$solution2}</td>
       </tr>
       <tr>
-        <td>a.</td><td>Expose the teacher to new techniques</td><td>Yes</td>
+        <td>a.</td><td>Expose the teacher to new techniques</td><td>{$solution3}</td>
       </tr>
       <tr>
-        <td>b.</td><td>Enable teachers to teach English</td><td>No</td>
+        <td>b.</td><td>Enable teachers to teach English</td><td>{$solution4}</td>
       </tr>
     </table>
-    ';
+    ";
 
     set_transient('lfw_success_message', $success_message, 10);
   }
