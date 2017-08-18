@@ -10,7 +10,7 @@
  */
 
 add_action( 'ninja_forms_after_submission', 'diagnostic_tool_calculations' );
-function diagnostic_tool_calculations( $form_data ){
+function diagnostic_tool_calculations( $form_data ) {
   $submitted_data = array();
   // get the submitted values
   if (!empty($form_data['fields_by_key'])) {
@@ -69,7 +69,46 @@ function diagnostic_tool_calculations( $form_data ){
       $teacher_level = 'Medium';
     }
 
+    // calculate supplementary class teacher
+    // IF(Input!J10="No","Low",IF(AND(Input!J8="Yes",Input!J9="Yes")=TRUE,"High",IF(AND(Input!J8="No",Input!J9="Yes")=TRUE,"Medium",IF(AND(Input!J8="Yes",Input!J9="No")=TRUE,"High",IF(AND(Input!J8="No",Input!J9="No")=TRUE,"Low","Medium")))))
 
+
+    $success_message = '
+    <table>
+      <tr>
+        <td>Outcome</td>
+      </tr>
+      <tr>
+        <td>1.</td><td>Exposure for students (High, Medium, Low)</td><td>'. $student_level.'</td>
+      </tr>
+      <tr>
+        <td>2.</td><td>Capability of supplementary Class Teachers (High, Medium, Low)</td><td>'. $teacher_level.'</td>
+      </tr>
+      <tr>
+        <td>3.</td><td>Improvement potential for supplementary class teachers (High, Medium, Low)</td><td>'. $student_level.'</td>
+      </tr>
+       <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>Solution</td>
+      </tr>
+      <tr>
+        <td>1.</td><td>Do you require any external assistance</td><td>Yes</td>
+      </tr>
+      <tr>
+        <td>2.</td><td>Can LFW add value in your context?</td><td>Yes</td>
+      </tr>
+      <tr>
+        <td>a.</td><td>Expose the teacher to new techniques</td><td>Yes</td>
+      </tr>
+      <tr>
+        <td>b.</td><td>Enable teachers to teach English</td><td>No</td>
+      </tr>
+    </table>
+    ';
+
+    set_transient('lfw_success_message', $success_message, 10);
   }
 
 }
