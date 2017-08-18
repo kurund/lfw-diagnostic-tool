@@ -70,8 +70,19 @@ function diagnostic_tool_calculations( $form_data ) {
     }
 
     // calculate supplementary class teacher
-    // IF(Input!J10="No","Low",IF(AND(Input!J8="Yes",Input!J9="Yes")=TRUE,"High",IF(AND(Input!J8="No",Input!J9="Yes")=TRUE,"Medium",IF(AND(Input!J8="Yes",Input!J9="No")=TRUE,"High",IF(AND(Input!J8="No",Input!J9="No")=TRUE,"Low","Medium")))))
-    $supp_teacher_level = 'High';
+    if (empty($submitted_data['t7'])) {
+      $supp_teacher_level = 'Low';
+    } elseif ($submitted_data['t5'] && $submitted_data['t6']) {
+      $supp_teacher_level = 'High';
+    } elseif (empty($submitted_data['t5']) && $submitted_data['t6']) {
+      $supp_teacher_level = 'Medium';
+    } elseif ($submitted_data['t5'] && empty($submitted_data['t6'])) {
+      $supp_teacher_level = 'High';
+    } elseif (empty($submitted_data['t5']) && empty($submitted_data['t6'])) {
+      $supp_teacher_level = 'Low';
+    } else {
+      $supp_teacher_level = 'Medium';
+    }
 
     $solution1 = $solution2 = $solution3 = $solution4 = 'No';
 
