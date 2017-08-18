@@ -91,7 +91,7 @@ function diagnostic_tool_calculations( $form_data ) {
     $success_message = "
     <table>
       <tr>
-        <td><strong>Outcome</strong></td>
+        <td colspan='3'><strong>Outcome</strong></td>
       </tr>
       <tr>
         <td>1.</td><td>Exposure for students (High, Medium, Low)</td><td>{$student_level}</td>
@@ -103,10 +103,10 @@ function diagnostic_tool_calculations( $form_data ) {
         <td>3.</td><td>Improvement potential for supplementary class teachers (High, Medium, Low)</td><td>{$supp_teacher_level}</td>
       </tr>
        <tr>
-        <td>&nbsp;</td>
+        <td colspan='3'>&nbsp;</td>
       </tr>
       <tr>
-        <td><strong>Solution</strong></td>
+        <td colspan='3'><strong>Solution</strong></td>
       </tr>
       <tr>
         <td>1.</td><td>Do you require any external assistance</td><td>{$solution1}</td>
