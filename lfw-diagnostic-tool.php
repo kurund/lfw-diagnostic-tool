@@ -93,10 +93,24 @@ function diagnostic_tool_calculations( $form_data ) {
 
     if ($solution2 == 'Yes' and ($teacher_level == 'High' or $teacher_level == 'Medium')) {
       $solution3 = 'Yes';
+      $solution3_message = "Your responses to the questions seem to suggest that while your teachers maybe comfortable with English themselves, they perhaps aren't very sure of how to teach English to their students.
+
+LeapForWord could be of assistance in this particular context - Our English teaching techniques will enable your teachers to run a structured & a measurable program to develop Reading, Comprehension & Communication capabilities in their kids.
+
+We will be sending you an e-mail with the English Literacy Program details. If what you read appeals to you, we would be most happy to continue this conversation and share how we could add some value to your good work!";
     }
 
     if ($solution2 == 'Yes' and $teacher_level == 'Low') {
       $solution4 = 'Yes';
+      $solution4_message = "Your responses to the questions seem to suggest that your teachers may not be comfortable with English themselves, and as a result despite good intentions maybe struggling to teach English to their students .
+
+LeapForWord could be of assistance in this particular context - Our English teaching techniques - designed especially for such teachers - will enable your teachers to run a structured & a measurable program to develop Reading, Comprehension & Communication capabilities in their kids. But most importantly, your teachers will discover a sense of confidence & pride because of their newly developed teaching skill.
+
+We will be sending you an e-mail with the English Literacy Program details. If what you read appeals to you, we would be most happy to continue this conversation and share how we could add some value to your good work!";
+    }
+
+    if ($solution1 == 'No') {
+      $solution1_message = 'It is heartening to note that your students have enough exposure to English. Our solution would not be of much value to you. We thank you for taking time out to take this diagnostic test.';
     }
 
     $success_message = "
@@ -122,15 +136,42 @@ function diagnostic_tool_calculations( $form_data ) {
       <tr>
         <td>1.</td><td>Do you require any external assistance</td><td>{$solution1}</td>
       </tr>
+      ";
+
+    if ($solution1 == 'Yes') {
+      $success_message .= "
       <tr>
         <td>2.</td><td>Can LFW add value in your context?</td><td>{$solution2}</td>
       </tr>
+      <tr><td colspan='3'>&nbsp;</td></tr>
+      ";
+
+      if ($solution3 == 'Yes') {
+        $success_message .= "
       <tr>
-        <td>a.</td><td>Expose the teacher to new techniques</td><td>{$solution3}</td>
+        <td colspan='3'>{$solution3_message}</td>
       </tr>
+      ";
+      }
+
+      if ($solution4 == 'Yes') {
+        $success_message .= "
       <tr>
-        <td>b.</td><td>Enable teachers to teach English</td><td>{$solution4}</td>
+        <td colspan='3'>{$solution4_message}</td>
       </tr>
+      ";
+      }
+    }
+    else {
+      $success_message .= "
+      <tr><td colspan='3'>&nbsp;</td></tr>
+      <tr>
+        <td colspan='3'>{$solution1_message}</td>
+      </tr>
+      ";
+    }
+
+    $success_message .= "
     </table>
     ";
 
